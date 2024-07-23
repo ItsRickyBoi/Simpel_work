@@ -1,0 +1,49 @@
+.navbar-place {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0);
+  }
+  
+  .logo {
+    font-weight: bold;
+    font-size: 24px;
+  }
+  
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    inline-size: auto;
+  }
+  
+  .nav-links a {
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px 15px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow to h1 */
+  }
+
+
+  .contact-button {
+    background-color: #6caaf5bd;
+    padding: 10px 15px;
+    border-radius: 5px;
+  }
+  
+  .home-button {
+    text-decoration: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: white;
+  }
+
+  .logout-button{
+    background-color: #6caaf5bd;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
+  }

@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ffb9b9, #92baff);
+    background-image: url('../../../public/assets/Company1.jpg');
+    background-size: cover;
+  }
+  
+  .home-container {
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+
+
+  .main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff3d;
+    border-radius: 20px;
+    margin: 50px;
+  }
+  
+  .content-left {
+    text-align: left;
+    margin-left: 100px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .content-left h1 {
+    font-size: 36px;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add shadow to h1 */
+  }
+  
+  .content-left p {
+    font-size: 24px;
+    margin: 5px 0;
+    text-shadow: 4px 2px 4px rgb(0, 0, 0); /* Add shadow to p elements */
+  }
+  
+  .content-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 50px;
+  }
+  
+  .picture-placeholder {
+    width: 700px;
+    height: 500px;
+    display: flex;
+    border-radius: 20px;
+  }
+  
+  .footer {
+    padding: 10px;
+    background-color: #dae8fc;
+  }
+  
+  .button-learn {
+    background-color: #ffffff;
+    border-radius: 20px;
+    color: rgb(45, 45, 45);
+    font-weight: 600;
+    font-size: large;
+    text-decoration: none;
+    padding: 15px;
+    margin-top: 20px;
+    margin-left: 0px;
+  }
+  

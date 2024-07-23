@@ -1,0 +1,115 @@
+.dashboard-container {
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 20px;
+  align-items: center;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 2px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.tab {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.tab.active {
+  border-bottom: 2px solid #000;
+}
+
+.performance {
+  text-align: center;
+}
+
+.days {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.day-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px;
+  width: 200px;
+  text-align: center;
+}
+
+.clock-in-out {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.clock-in-out button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+}
+
+.clock-in-out button:hover {
+  background-color: #0056b3;
+}
+
+.tasks {
+  margin-bottom: 20%;
+}
+
+.tasks-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.tasks-column {
+  width: 45%;
+}
+
+.tasks-column h3 {
+  text-align: center;
+  border-bottom: 1px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.tasks-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tasks-column ul li {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.tasks-column ul li input {
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+button.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
