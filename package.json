@@ -1,7 +1,8 @@
 {
   "name": "simpel-work",
+  "homepage": "http://tugaskpricky.my.id",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"npm run server\" \"npm run client\"",
