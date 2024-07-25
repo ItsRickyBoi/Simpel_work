@@ -124,7 +124,7 @@ const EditCompany = () => {
 
   useEffect(() => {
     if (user && user.company_tag) {
-      axios.get(`http://localhost:3306/api/company/${user.company_tag}`)
+      axios.get(`http://tugaskpricky.my.id/api/company/${user.company_tag}`)
         .then(response => {
           setCompany(response.data);
           setIsLoading(false);
@@ -145,7 +145,7 @@ const EditCompany = () => {
   };
 
   const handleUpdate = () => {
-    axios.put(`http://localhost:3306/api/company/${user.company_tag}`, company)
+    axios.put(`http://tugaskpricky.my.id/api/company/${user.company_tag}`, company)
       .then(response => {
         setMessage('Company details updated successfully.');
       })

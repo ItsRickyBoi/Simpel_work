@@ -19,7 +19,7 @@ const EditUser = () => {
     }
 
     try {
-      const response = await axios.put(`http://localhost:3306/api/users/${user.id}/password`, { password });
+      const response = await axios.put(`http://tugaskpricky.my.id/api/users/${user.id}/password`, { password });
       setMessage(response.data.message);
 
       // Log out the user and navigate to the login page with a success message

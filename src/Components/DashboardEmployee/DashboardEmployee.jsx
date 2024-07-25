@@ -4,7 +4,7 @@
   import axios from 'axios';
 
   // Set the base URL for axios
-  axios.defaults.baseURL = 'http://localhost:3306';
+  axios.defaults.baseURL = 'http://tugaskpricky.my.id';
 
   const Dashboard = () => {
     const { user } = useUser();
