@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Register.css';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Register = () => {
   const [step, setStep] = useState(1);
@@ -8,12 +9,9 @@ const Register = () => {
   const [companyTag, setCompanyTag] = useState('');
   const [ceoFirstName, setCeoFirstName] = useState('');
   const [ceoLastName, setCeoLastName] = useState('');
-  const [ceoDob, setCeoDob] = useState('');
-  const [ceoPhone, setCeoPhone] = useState('');
   const [ceoEmail, setCeoEmail] = useState('');
   const [companyAddress, setCompanyAddress] = useState('');
   const [companyEmail, setCompanyEmail] = useState('');
-  const [companyContact, setCompanyContact] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,6 +21,19 @@ const Register = () => {
   const navigate = useNavigate();
 
   const nextStep = () => {
+    if (step === 1 && (!companyName || !companyTag)) {
+      setNotification('Company name and tag are required.');
+      return;
+    }
+    if (step === 2 && (!ceoFirstName || !ceoLastName || !ceoEmail)) {
+      setNotification('CEO information is required.');
+      return;
+    }
+    if (step === 3 && (!companyAddress || !companyEmail || !username || !password || !confirmPassword)) {
+      setNotification('All fields are required.');
+      return;
+    }
+    setNotification('');
     setStep(step + 1);
   };
 
@@ -30,7 +41,7 @@ const Register = () => {
     setStep(step - 1);
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (!tosAccepted) {
       alert('You must accept the terms of service to register.');
       return;
@@ -44,18 +55,20 @@ const Register = () => {
       companyTag,
       ceoFirstName,
       ceoLastName,
-      ceoDob,
-      ceoPhone,
       ceoEmail,
       companyAddress,
       companyEmail,
-      companyContact,
       username,
       password,
     };
-    console.log('User registered:', JSON.stringify(newUser, null, 2));
-    alert('Registration successful! Redirecting to login page...');
-    navigate('/login');
+    try {
+      await axios.post('http://localhost:3000/api/auth/register', newUser);
+      alert('Registration successful! Redirecting to login page...');
+      navigate('/login');
+    } catch (error) {
+      console.error('Registration error:', error);
+      setNotification('Registration failed. Please try again.');
+    }
   };
 
   const renderStep = () => {
@@ -69,12 +82,14 @@ const Register = () => {
               placeholder="Enter your company name"
               value={companyName}
               onChange={(e) => setCompanyName(e.target.value)}
+              required
             />
             <input
               type="text"
               placeholder="Enter unique tag"
               value={companyTag}
               onChange={(e) => setCompanyTag(e.target.value)}
+              required
             />
             <button onClick={nextStep} className="next-button">Next ➞</button>
           </div>
@@ -88,30 +103,21 @@ const Register = () => {
               placeholder="First name"
               value={ceoFirstName}
               onChange={(e) => setCeoFirstName(e.target.value)}
+              required
             />
             <input
               type="text"
               placeholder="Last name"
               value={ceoLastName}
               onChange={(e) => setCeoLastName(e.target.value)}
-            />
-            <input
-              type="date"
-              placeholder="Date of birth"
-              value={ceoDob}
-              onChange={(e) => setCeoDob(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Phone number"
-              value={ceoPhone}
-              onChange={(e) => setCeoPhone(e.target.value)}
+              required
             />
             <input
               type="email"
               placeholder="Email"
               value={ceoEmail}
               onChange={(e) => setCeoEmail(e.target.value)}
+              required
             />
             <button onClick={nextStep} className="next-button">Next ➞</button>
             <button onClick={previousStep} className="prev-button">← Previous</button>
@@ -126,36 +132,35 @@ const Register = () => {
               placeholder="Address"
               value={companyAddress}
               onChange={(e) => setCompanyAddress(e.target.value)}
+              required
             />
             <input
               type="email"
               placeholder="Company's email"
               value={companyEmail}
               onChange={(e) => setCompanyEmail(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Company's contact"
-              value={companyContact}
-              onChange={(e) => setCompanyContact(e.target.value)}
+              required
             />
             <input
               type="text"
               placeholder="Username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
+              required
             />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              required
             />
             <input
               type="password"
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              required
             />
             <button onClick={nextStep} className="next-button">Next ➞</button>
             <button onClick={previousStep} className="prev-button">← Previous</button>
@@ -180,6 +185,7 @@ const Register = () => {
                 id="terms"
                 checked={tosAccepted}
                 onChange={() => setTosAccepted(!tosAccepted)}
+                required
               />
               <label className='term-text' htmlFor="terms">Checking this box means agreeing to the terms of service</label>
             </div>

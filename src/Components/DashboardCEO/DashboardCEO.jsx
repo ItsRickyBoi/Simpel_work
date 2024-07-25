@@ -1,82 +1,74 @@
-/*
-import React, { useEffect, useState } from 'react';
-import './DashboardCEO.css';
-import { useUser } from '../../UserHandler/UserContext';
-import axios from 'axios';
 
-const DashboardCEO = () => {
-  const { user } = useUser();
-  const [currentDay, setCurrentDay] = useState('');
-  const [employeeData, setEmployeeData] = useState([]);
+// import React, { useEffect, useState } from 'react';
+// import './DashboardCEO.css';
+// import { useUser } from '../../UserHandler/UserContext';
+// import axios from 'axios'; // Import axios for making HTTP requests
 
-  useEffect(() => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const todayIndex = new Date().getDay();
-    setCurrentDay(daysOfWeek[todayIndex]);
+// const DashboardCEO = () => {
+//   const { user } = useUser();
+//   const [currentDay, setCurrentDay] = useState('');
+//   const [employeeData, setEmployeeData] = useState([]);
 
-    const fetchEmployees = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3000/api/company/${user.company_tag}`);
-        const companyEmployees = response.data.filter(emp => emp.role !== 'ceo');
+//   useEffect(() => {
+//     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+//     const todayIndex = new Date().getDay();
+//     setCurrentDay(daysOfWeek[todayIndex]);
 
-        const attendancePromises = companyEmployees.map(async employee => {
-          const attendanceResponse = await axios.get(`http://localhost:3000/api/attendance/${employee.id}`);
-          const attendanceData = attendanceResponse.data;
+//     const fetchEmployeesAndAttendance = async () => {
+//       try {
+//         const response = await axios.get(`http://localhost:3000/api/users/company/${user.company_tag}`);
+//         const employees = response.data;
 
-          const todayAttendance = attendanceData.find(att => new Date(att.date).getDay() === todayIndex) || {
-            clock_in: '-',
-            clock_out: '-',
-            tasks_done: 0,
-          };
+//         const attendancePromises = employees.map(async (employee) => {
+//           const attendanceResponse = await axios.get(`http://localhost:3000/api/attendance/${employee.id}`);
+//           const todayAttendance = attendanceResponse.data.find(att => new Date(att.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]);
+//           return {
+//             ...employee,
+//             clock_in: todayAttendance ? todayAttendance.clock_in : '-',
+//             clock_out: todayAttendance ? todayAttendance.clock_out : '-',
+//             tasks_done: todayAttendance ? todayAttendance.tasks_done : 0,
+//           };
+//         });
 
-          return {
-            name: `${employee.first_name} ${employee.last_name}`,
-            clockIn: todayAttendance.clock_in,
-            clockOut: todayAttendance.clock_out,
-            tasksDone: todayAttendance.tasks_done,
-          };
-        });
+//         const employeesWithAttendance = await Promise.all(attendancePromises);
+//         setEmployeeData(employeesWithAttendance);
+//       } catch (error) {
+//         console.error('Error fetching employee or attendance data:', error);
+//       }
+//     };
 
-        const data = await Promise.all(attendancePromises);
-        setEmployeeData(data);
-      } catch (error) {
-        console.error('Error fetching employee data:', error);
-      }
-    };
+//     fetchEmployeesAndAttendance();
+//   }, [user.company_tag]);
 
-    fetchEmployees();
-  }, [user.company_tag]);
+//   return (
+//     <div className="dashboard-ceo-container">
+//       <h2>List of Employees</h2>
+//       <p>Day today: {currentDay}</p>
+//       <table>
+//         <thead>
+//           <tr>
+//             <th>Name</th>
+//             <th>Clock in</th>
+//             <th>Clock out</th>
+//             <th>Task total</th>
+//           </tr>
+//         </thead>
+//         <tbody>
+//           {employeeData.map((employee, index) => (
+//             <tr key={index}>
+//               <td>{employee.first_name} {employee.last_name}</td>
+//               <td>{employee.clock_in}</td>
+//               <td>{employee.clock_out}</td>
+//               <td>{employee.tasks_done}</td>
+//             </tr>
+//           ))}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
 
-  return (
-    <div className="dashboard-ceo-container">
-      <h2>List of Employees</h2>
-      <p>Day today: {currentDay}</p>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Clock in</th>
-            <th>Clock out</th>
-            <th>Task total</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employeeData.map((employee, index) => (
-            <tr key={index}>
-              <td>{employee.name}</td>
-              <td>{employee.clockIn}</td>
-              <td>{employee.clockOut}</td>
-              <td>{employee.tasksDone}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
-
-export default DashboardCEO;
-*/
+// export default DashboardCEO;
 
 import React, { useEffect, useState } from 'react';
 import './DashboardCEO.css';
@@ -93,16 +85,34 @@ const DashboardCEO = () => {
     const todayIndex = new Date().getDay();
     setCurrentDay(daysOfWeek[todayIndex]);
 
-    const fetchEmployees = async () => {
+    const fetchEmployeesAndAttendanceAndTasks = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/api/users/company/${user.company_tag}`);
-        setEmployeeData(response.data);
+        const employees = response.data;
+
+        const attendanceAndTasksPromises = employees.map(async (employee) => {
+          const attendanceResponse = await axios.get(`http://localhost:3000/api/attendance/${employee.id}`);
+          const todayAttendance = attendanceResponse.data.find(att => new Date(att.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]);
+
+          const tasksResponse = await axios.get(`http://localhost:3000/api/tasks/${employee.id}`);
+          const doneTasksCount = tasksResponse.data.filter(task => task.status === 'done').length;
+
+          return {
+            ...employee,
+            clock_in: todayAttendance ? todayAttendance.clock_in : '-',
+            clock_out: todayAttendance ? todayAttendance.clock_out : '-',
+            tasks_done: doneTasksCount,
+          };
+        });
+
+        const employeesWithAttendanceAndTasks = await Promise.all(attendanceAndTasksPromises);
+        setEmployeeData(employeesWithAttendanceAndTasks);
       } catch (error) {
-        console.error('Error fetching employee data:', error);
+        console.error('Error fetching employee, attendance or tasks data:', error);
       }
     };
 
-    fetchEmployees();
+    fetchEmployeesAndAttendanceAndTasks();
   }, [user.company_tag]);
 
   return (
@@ -122,9 +132,9 @@ const DashboardCEO = () => {
           {employeeData.map((employee, index) => (
             <tr key={index}>
               <td>{employee.first_name} {employee.last_name}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td>{employee.clock_in}</td>
+              <td>{employee.clock_out}</td>
+              <td>{employee.tasks_done}</td>
             </tr>
           ))}
         </tbody>

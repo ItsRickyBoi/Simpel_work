@@ -1,28 +1,16 @@
-// Login.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './Login.css';
 import { useUser } from '../../UserHandler/UserContext';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
   const { login } = useUser();
   const navigate = useNavigate();
-  const location = useLocation();
   const [username, setUsername] = useState('');
   const [companyId, setCompanyId] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
-
-  useEffect(() => {
-    // Check for a success message in the URL
-    const params = new URLSearchParams(location.search);
-    const message = params.get('message');
-    if (message) {
-      setSuccessMessage(message);
-    }
-  }, [location]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -31,7 +19,7 @@ const Login = () => {
         username,
         password,
         company_tag: companyId,
-      });
+      }, { withCredentials: true });
 
       login(response.data);
       navigate('/');
@@ -76,7 +64,6 @@ const Login = () => {
             />
           </div>
           {error && <p className="error">{error}</p>}
-          {successMessage && <p className="success">{successMessage}</p>}
           <button type="submit" className="login-button">LOGIN</button>
         </form>
         <p className="register-link">Want to start managing your company? <a href="/register">Register</a></p>
