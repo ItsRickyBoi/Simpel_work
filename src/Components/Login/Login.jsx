@@ -15,7 +15,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://tugaskpricky.my.id/api/auth/login', {
+      const response = await axios.post('https://creamysite.my.id/api/auth/login', {
         username,
         password,
         company_tag: companyId,

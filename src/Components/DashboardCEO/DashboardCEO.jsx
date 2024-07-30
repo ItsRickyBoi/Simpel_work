@@ -87,14 +87,14 @@ const DashboardCEO = () => {
 
     const fetchEmployeesAndAttendanceAndTasks = async () => {
       try {
-        const response = await axios.get(`http://tugaskpricky.my.id/api/users/company/${user.company_tag}`);
+        const response = await axios.get(`https://creamysite.my.id/api/users/company/${user.company_tag}`);
         const employees = response.data;
 
         const attendanceAndTasksPromises = employees.map(async (employee) => {
-          const attendanceResponse = await axios.get(`http://tugaskpricky.my.id/api/attendance/${employee.id}`);
+          const attendanceResponse = await axios.get(`https://creamysite.my.id/api/attendance/${employee.id}`);
           const todayAttendance = attendanceResponse.data.find(att => new Date(att.date).toISOString().split('T')[0] === new Date().toISOString().split('T')[0]);
 
-          const tasksResponse = await axios.get(`http://tugaskpricky.my.id/api/tasks/${employee.id}`);
+          const tasksResponse = await axios.get(`https://creamysite.my.id/api/tasks/${employee.id}`);
           const doneTasksCount = tasksResponse.data.filter(task => task.status === 'done').length;
 
           return {
