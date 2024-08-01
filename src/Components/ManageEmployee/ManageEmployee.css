@@ -1,0 +1,79 @@
+.manage-employees-container-custom {
+    width: 50%;
+    height: 100%;
+    margin: 2% auto;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    align-items: center;
+  }
+  
+  .manage-employees-tabs-custom {
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 20px;
+  }
+  
+  .manage-employees-tab-custom {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .manage-employees-tab-custom.active {
+    border-bottom: 2px solid #000;
+  }
+  
+  .manage-employees-form-container-custom {
+    text-align: center;
+  }
+  
+  form.custom-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  form.custom-form input, form.custom-form select, form.custom-form textarea {
+    margin: 10px 0;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  form.custom-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+  
+  form.custom-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+  }
+  
+  form.custom-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  .success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+  }
+  
+  .error-message {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+  }

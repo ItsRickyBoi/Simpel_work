@@ -1,3 +1,5 @@
+
+// const bcrypt = require('bcrypt');  // Ensure bcrypt is imported
 // const User = require('../models/userModel');
 
 // // Get all users
@@ -133,7 +135,33 @@ const getUserById = async (req, res) => {
 // Create a new user
 const createUser = async (req, res) => {
     try {
-        const newUser = await User.create(req.body);
+        const { first_name, last_name, username, password, division, division_role, company_tag } = req.body;
+        
+        // Check if all required fields are present
+        if (!first_name || !last_name || !username || !password || !division || !division_role || !company_tag) {
+            return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        // Check if username already exists for the same company_tag
+        const existingUser = await User.findOne({ where: { username, company_tag } });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username already exists for this company' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Create the new user with the hashed password
+        const newUser = await User.create({
+            first_name,
+            last_name,
+            username,
+            password: hashedPassword,
+            division,
+            division_role,
+            company_tag
+        });
+
         res.status(201).json(newUser);
     } catch (err) {
         res.status(500).json({ error: err.message });

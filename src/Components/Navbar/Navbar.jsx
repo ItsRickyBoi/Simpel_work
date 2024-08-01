@@ -14,7 +14,7 @@
 //       <nav className="nav-links">
 //         {user ? (
 //           <>
-//             <Link to="/record">Records</Link>
+//             {user.role === 'ceo' && <Link to="/managing">Managing</Link>}
 //             {user.role === 'ceo' ? (
 //               <Link to="/dashboardceo">Dashboard</Link>
 //             ) : (
@@ -55,7 +55,7 @@ export const Navbar = () => {
       <nav className="nav-links">
         {user ? (
           <>
-            {user.role === 'ceo' && <Link to="/records">Records</Link>}
+            {user.role === 'ceo' && <Link to="/managing">Managing</Link>}
             {user.role === 'ceo' ? (
               <Link to="/dashboardceo">Dashboard</Link>
             ) : (
@@ -78,4 +78,3 @@ export const Navbar = () => {
 };
 
 export default Navbar;
-

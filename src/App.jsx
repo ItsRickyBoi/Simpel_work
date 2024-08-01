@@ -1,4 +1,3 @@
-// // App.jsx
 // import React from 'react';
 // import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 // import Navbar from './Components/Navbar/Navbar';
@@ -55,7 +54,7 @@ import EditCompany from './Components/EditUser/EditCompany';
 import { UserProvider, useUser } from './UserHandler/UserContext';
 import DashboardEmployee from './Components/DashboardEmployee/DashboardEmployee';
 import DashboardCEO from './Components/DashboardCEO/DashboardCEO';
-import RecordsCEO from './Components/RecordsCEO/recordsCEO';
+import ManageEmployees from './Components/ManageEmployee/ManageEmployee'; // Import your new components
 
 const PrivateRoute = ({ element: Component, ...rest }) => {
   const { user } = useUser();
@@ -81,7 +80,7 @@ export default function App() {
           <Route path="/edit-company" element={<CeoRoute element={EditCompany} />} />
           <Route path="/dashboardemployee" element={<PrivateRoute element={DashboardEmployee} />} />
           <Route path="/dashboardceo" element={<CeoRoute element={DashboardCEO} />} />
-          <Route path="/records" element={<CeoRoute element={RecordsCEO} />} />
+          <Route path="/managing" element={<CeoRoute element={ManageEmployees} />} /> {/* Add this line */}
         </Routes>
       </Router>
     </UserProvider>
