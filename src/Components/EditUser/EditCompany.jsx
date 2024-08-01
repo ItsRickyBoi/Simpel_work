@@ -62,7 +62,7 @@
 //     const fetchCompany = async () => {
 //       try {
 //         if (user && user.company_tag) {
-//           const response = await axios.get(`http://localhost:3000/api/company/${user.company_tag}`);
+//           const response = await axios.get(`http://creamysite.my.id/api/company/${user.company_tag}`);
 //           setCompany(response.data);
 //         }
 //       } catch (error) {
@@ -124,7 +124,7 @@ const EditCompany = () => {
 
   useEffect(() => {
     if (user && user.company_tag) {
-      axios.get(`http://localhost:3000/api/company/${user.company_tag}`)
+      axios.get(`http://creamysite.my.id/api/company/${user.company_tag}`)
         .then(response => {
           setCompany(response.data);
           setIsLoading(false);
@@ -145,7 +145,7 @@ const EditCompany = () => {
   };
 
   const handleUpdate = () => {
-    axios.put(`http://localhost:3000/api/company/${user.company_tag}`, company)
+    axios.put(`http://creamysite.my.id/api/company/${user.company_tag}`, company)
       .then(response => {
         setMessage('Company details updated successfully.');
       })

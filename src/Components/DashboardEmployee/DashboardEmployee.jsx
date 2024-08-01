@@ -4,7 +4,7 @@
   // import axios from 'axios';
 
   // // Set the base URL for axios
-  // axios.defaults.baseURL = 'http://localhost:3000';
+  // axios.defaults.baseURL = 'http://creamysite.my.id';
 
   // const Dashboard = () => {
   //   const { user } = useUser();
@@ -197,7 +197,7 @@
   import axios from 'axios';
   
   // Set the base URL for axios
-  axios.defaults.baseURL = 'http://localhost:3000';
+  axios.defaults.baseURL = 'http://creamysite.my.id';
   
   const Dashboard = () => {
     const { user } = useUser();

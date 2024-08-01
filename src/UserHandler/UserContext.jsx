@@ -42,7 +42,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/api/auth/check-session', { withCredentials: true });
+        const response = await axios.get('http://creamysite.my.id/api/auth/check-session', { withCredentials: true });
         setUser(response.data);
       } catch (error) {
         setUser(null);
@@ -59,7 +59,7 @@ export const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:3000/api/auth/logout', {}, { withCredentials: true });
+      await axios.post('http://creamysite.my.id/api/auth/logout', {}, { withCredentials: true });
       setUser(null);
     } catch (error) {
       console.error('Error during logout:', error);

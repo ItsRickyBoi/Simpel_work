@@ -62,7 +62,7 @@ const Register = () => {
       password,
     };
     try {
-      await axios.post('http://localhost:3000/api/auth/register', newUser);
+      await axios.post('http://creamysite.my.id/api/auth/register', newUser);
       alert('Registration successful! Redirecting to login page...');
       navigate('/login');
     } catch (error) {
