@@ -43,11 +43,11 @@ const Register = () => {
 
   const handleRegister = async () => {
     if (!tosAccepted) {
-      alert('You must accept the terms of service to register.');
+      setNotification('You must accept the terms of service to register.');
       return;
     }
     if (password !== confirmPassword) {
-      alert('Passwords do not match.');
+      setNotification('Passwords do not match.');
       return;
     }
     const newUser = {
@@ -63,8 +63,10 @@ const Register = () => {
     };
     try {
       await axios.post('http://localhost:3000/api/auth/register', newUser);
-      alert('Registration successful! Redirecting to login page...');
-      navigate('/login');
+      setNotification('Registration successful! Redirecting to login page...');
+      setTimeout(() => {
+        navigate('/login');
+      }, 2000); // Redirect after 2 seconds
     } catch (error) {
       console.error('Registration error:', error);
       setNotification('Registration failed. Please try again.');
@@ -88,7 +90,13 @@ const Register = () => {
               type="text"
               placeholder="Enter unique tag"
               value={companyTag}
-              onChange={(e) => setCompanyTag(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                // Allow input only if the length is 6 or less
+                if (value.length <= 6) {
+                  setCompanyTag(value);
+                }
+              }}
               required
             />
             <button onClick={nextStep} className="next-button">Next ➞</button>

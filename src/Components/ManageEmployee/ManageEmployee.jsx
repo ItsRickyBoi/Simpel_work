@@ -21,6 +21,14 @@ const ManageEmployees = () => {
     taskIssuer: user ? `${user.first_name} ${user.last_name}` : '',
     employeeDivision: ''
   });
+  const [removeForm, setRemoveForm] = useState({
+    employeeName: ''
+  });
+  const [attendanceForm, setAttendanceForm] = useState({
+    employeeName: '',
+    clockIn: '',
+    clockOut: ''
+  });
   const [employees, setEmployees] = useState([]);
 
   useEffect(() => {
@@ -44,6 +52,16 @@ const ManageEmployees = () => {
   const handleTaskFormChange = (e) => {
     const { name, value } = e.target;
     setTaskForm(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handleRemoveFormChange = (e) => {
+    const { name, value } = e.target;
+    setRemoveForm(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  const handleAttendanceFormChange = (e) => {
+    const { name, value } = e.target;
+    setAttendanceForm(prevState => ({ ...prevState, [name]: value }));
   };
 
   const handleCreateEmployee = async (e) => {
@@ -105,11 +123,61 @@ const ManageEmployees = () => {
     }
   };
 
+  const handleRemoveEmployee = async (e) => {
+    e.preventDefault();
+    const confirmRemove = window.confirm('Are you sure you want to remove this employee?');
+    if (!confirmRemove) return;
+
+    const employeeToRemove = employees.find(emp => emp.username === removeForm.employeeName);
+    if (!employeeToRemove) {
+      alert('Employee not found');
+      return;
+    }
+
+    try {
+      await axios.delete(`/api/users/${employeeToRemove.id}`);
+      setEmployees(employees.filter(emp => emp.id !== employeeToRemove.id));
+      setRemoveForm({ employeeName: '' });
+      alert('Employee removed successfully');
+    } catch (error) {
+      console.error('Error removing employee:', error.response || error);
+      alert('Failed to remove employee');
+    }
+  };
+
+  const handleUpdateAttendance = async (e) => {
+    e.preventDefault();
+    const selectedEmployee = employees.find(emp => emp.username === attendanceForm.employeeName);
+    if (!selectedEmployee) {
+      alert('Employee not found');
+      return;
+    }
+
+    try {
+      await axios.put(`/api/attendance/update/${selectedEmployee.id}`, {
+        clock_in: attendanceForm.clockIn || undefined,
+        clock_out: attendanceForm.clockOut || undefined,
+        date: new Date().toISOString().split('T')[0] // Use today's date
+      });
+      setAttendanceForm({
+        employeeName: '',
+        clockIn: '',
+        clockOut: ''
+      });
+      alert('Attendance updated successfully');
+    } catch (error) {
+      console.error('Error updating attendance:', error.response || error);
+      alert('Failed to update attendance');
+    }
+  };
+
   return (
     <div className="manage-employees-container-custom">
       <div className="manage-employees-tabs-custom">
         <div className={`manage-employees-tab-custom ${activeTab === 'Employee' ? 'active' : ''}`} onClick={() => setActiveTab('Employee')}>Employee</div>
         <div className={`manage-employees-tab-custom ${activeTab === 'Task' ? 'active' : ''}`} onClick={() => setActiveTab('Task')}>Task</div>
+        <div className={`manage-employees-tab-custom ${activeTab === 'Remove' ? 'active' : ''}`} onClick={() => setActiveTab('Remove')}>Remove</div>
+        <div className={`manage-employees-tab-custom ${activeTab === 'Attendance' ? 'active' : ''}`} onClick={() => setActiveTab('Attendance')}>Edit Attendance</div>
       </div>
       {activeTab === 'Employee' && (
         <div className="manage-employees-form-container-custom">
@@ -143,6 +211,36 @@ const ManageEmployees = () => {
             <input type="text" name="taskIssuer" placeholder="Task Issuer" value={taskForm.taskIssuer} readOnly />
             <input type="text" name="employeeDivision" placeholder="Employee's Division" value={employees.find(emp => emp.username === taskForm.employeeName)?.division || ''} readOnly />
             <button type="submit">Send Task</button>
+          </form>
+        </div>
+      )}
+      {activeTab === 'Remove' && (
+        <div className="manage-employees-form-container-custom">
+          <h2>Fire Employee</h2>
+          <form className="custom-form" onSubmit={handleRemoveEmployee}>
+            <select name="employeeName" value={removeForm.employeeName} onChange={handleRemoveFormChange}>
+              <option value="">Choose Employee Name</option>
+              {employees.map(emp => (
+                <option key={emp.id} value={emp.username}>{emp.first_name} {emp.last_name}</option>
+              ))}
+            </select>
+            <button type="submit">Fire Employee</button>
+          </form>
+        </div>
+      )}
+      {activeTab === 'Attendance' && (
+        <div className="manage-employees-form-container-custom">
+          <h2>Edit Attendance</h2>
+          <form className="custom-form" onSubmit={handleUpdateAttendance}>
+            <select name="employeeName" value={attendanceForm.employeeName} onChange={handleAttendanceFormChange}>
+              <option value="">Choose Employee Name</option>
+              {employees.map(emp => (
+                <option key={emp.id} value={emp.username}>{emp.first_name} {emp.last_name}</option>
+              ))}
+            </select>
+            <input type="time" name="clockIn" placeholder="Clock In Time" value={attendanceForm.clockIn} onChange={handleAttendanceFormChange} />
+            <input type="time" name="clockOut" placeholder="Clock Out Time" value={attendanceForm.clockOut} onChange={handleAttendanceFormChange} />
+            <button type="submit">Update Attendance</button>
           </form>
         </div>
       )}

@@ -6,6 +6,18 @@
     align-items: center;
   }
   
+  .notification {
+    color: red;
+    font-weight: bold;
+    margin-top: 10px;
+    background-color: #f8d7da;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    text-align: center;
+  }
+  
   .logo-placeholder {
     width: 100px;
     height: 100px;
