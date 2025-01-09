@@ -47,3 +47,40 @@ exports.clockOut = async (req, res) => {
         res.status(500).json({ message: 'Error recording clock-out', error });
     }
 };
+
+exports.updateAttendance = async (req, res) => {
+    const { userId } = req.params;
+    const { clock_in, clock_out, date } = req.body;
+
+    try {
+        // Check if the attendance record exists for the user and date
+        let attendance = await Attendance.findOne({ where: { user_id: userId, date } });
+
+        if (!attendance) {
+            // Create a new attendance record if it doesn't exist
+            attendance = await Attendance.create({ user_id: userId, date, clock_in, clock_out });
+            return res.status(201).json({
+                message: 'Attendance record created successfully',
+                attendance,
+            });
+        }
+
+        // If the record exists, update the clock-in and/or clock-out
+        if (clock_in) attendance.clock_in = clock_in;
+        if (clock_out) attendance.clock_out = clock_out;
+
+        // Save the changes
+        await attendance.save();
+
+        res.status(200).json({
+            message: 'Attendance updated successfully',
+            attendance,
+        });
+    } catch (error) {
+        console.error('Error updating attendance:', error);
+        res.status(500).json({
+            message: 'Failed to update attendance',
+            error,
+        });
+    }
+};
